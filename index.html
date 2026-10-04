@@ -79,6 +79,7 @@ textarea{width:100%;min-height:200px;border-radius:12px;border:2px solid var(--l
     <button class="btn" id="again">إعادة نطق الاسم</button>
     <select class="btn" id="vsel" aria-label="اختيار الصوت" style="max-width:100%"></select>
     <label class="btn" style="font-size:16px">نعومة الصوت <input type="range" id="pit" min="0.8" max="2" step="0.1" value="1.6" style="width:110px;accent-color:var(--pink)"></label>
+    <button class="btn" id="def">استعادة أسماء شعبة 8</button>
     <button class="btn" id="reset">إعادة الاختيار من البداية</button>
   </div>
 
@@ -94,8 +95,9 @@ textarea{width:100%;min-height:200px;border-radius:12px;border:2px solid var(--l
 
 <script>
 var $=function(i){return document.getElementById(i)};
-var KEY="picker8_v1", st={all:[],picked:[]}, busy=false;
-try{var s=JSON.parse(localStorage.getItem(KEY)||"null");if(s&&s.all)st=s}catch(e){}
+var DEF=["اسيل محمد السيحان", "بدريه علي الجرمان", "بدريه ناصر", "جميلة أحمد الصقران", "جنان أحمد علي بوصخر", "جوليانا عبدالعزيز محمد عبدالله", "حنين خالد العوض", "حنين عدنان", "حور غانم سعود الحميدي", "دلال حسن الحمادي", "ديمه محمد بوراشد", "ريان أحمد الصالح", "ريان إسماعيل شاكر حسن", "ريفان فهد المسعود", "سميرة علي مصطفى رضا", "شوق علي سلمان", "غالية محمد السالم", "غلا عبدالعزيز المقهوي", "فاطمة الزهراء فهد المجرن", "فاطمة يوسف أشكناني", "موضي محارب الدويش"];
+var KEY="picker8_v1", st={all:DEF.slice(),picked:[]}, busy=false;
+try{var s=JSON.parse(localStorage.getItem(KEY)||"null");if(s&&s.all&&s.all.length)st=s}catch(e){}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(st))}catch(e){}}
 function left(){return st.all.filter(function(n){return st.picked.indexOf(n)<0})}
 function rnd(n){var a=new Uint32Array(1);crypto.getRandomValues(a);return a[0]%n}
@@ -299,6 +301,7 @@ function boom(){
 }
 cw.addEventListener("click",function(){var b=$("go");if(!b.disabled)b.click()});
 cw.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();var b=$("go");if(!b.disabled)b.click()}});
+$("def").onclick=function(){if(!busy)setNames(DEF)};
 render();sizeWheel();addEventListener("resize",sizeWheel);
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(drawWheel);
 </script>
